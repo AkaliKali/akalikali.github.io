@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./addon/alt_script.js" defer></script>
+    <title>Conversion</title>
+    <link rel="stylesheet" href="./addon/styles.css">
+</head>
+
+<body>
+<form autocomplete="off">
+    <h1>Conversion</h1>
+    <div class="biggerInputContainer">
+        <div class="inputContainer">
+            <h3>Dilution</h3>
+            <label for="mass">Quantity :</label>
+            <input type="text" id="mass" maxlength="4" data-jsobject="concentrationObject" data-property="mass">
+            <select id="massUnit" data-jsobject="concentrationObject" data-property="massUnit">
+                <option value="unknown">-</option>
+                <option value="g">g</option>
+                <option value="mg">mg</option>
+                <option value="mcg">MCG</option>
+            </select>
+            <h4>in</h4>
+            <input type="text" id="volume" placeholder="mL" maxlength="5" data-jsobject="concentrationObject" data-property="volume">
+            <label for="volume">mL (total volume)</label>
+            <br><br>
+
+            <!--            <span id="concentration" data-jsobject="concentrationObject"></span>-->
+            <span data-jsobject="concentrationObject" id="concentrationUnit"></span>
+            <span id="concentrationParenthesis" data-jsobject="concentrationObject"></span>
+        </div>
+        <div class="inputContainer">
+            <h3>Starting point</h3>
+
+            <label for="startPointUnit">Start point :</label>
+            <input type="text" placeholder="" id="startingPoint" class="" maxlength="5"
+                   data-jsobject="startingPointObject" data-property="point">
+            <select id="startPointUnit" data-property="pointUnit" data-jsobject="startingPointObject">
+                <option value="-">-</option>
+                <option value="ml/h">mL/h</option>
+                <option value="mg/h">mg/h</option>
+                <option value="mg/min">mg/min</option>
+                <option value="mg/kg/h">mg/kg/h</option>
+                <option value="mg/kg/min">mg/kg/min</option>
+                <option value="mcg/h">MCG/h</option>
+                <option value="mcg/min">MCG/min</option>
+                <option value="mcg/kg/h">MCG/kg/h</option>
+                <option value="mcg/kg/min">MCG/kg/min</option>
+            </select>
+
+            <br><br>
+
+            <label for="endPointUnit">End point :</label>
+            <select id="endPointUnit" data-jsobject="endingPointObject" data-property="pointUnit">
+                <option value="-">-</option>
+                <option value="ml/h">mL/h</option>
+                <option value="mg/h">mg/h</option>
+                <option value="mg/min">mg/min</option>
+                <option value="mg/kg/h">mg/kg/h</option>
+                <option value="mg/kg/min">mg/kg/min</option>
+                <option value="mcg/h">MCG/h</option>
+                <option value="mcg/min">MCG/min</option>
+                <option value="mcg/kg/h">MCG/kg/h</option>
+                <option value="mcg/kg/min">MCG/kg/min</option>
+            </select>
+            <br><br>
+            <label id=weightLabel for="weight">Weight :</label>
+            <input type="text" id="weight" placeholder="kg" maxlength="4"
+                   data-jsobject="weightObject" data-property="weight"><span> kg</span>
+        </div>
+    </div>
+
+    <div class="outputContainer">
+        <h3>Ending point</h3>
+        <span id="endingPoint" data-jsobject="endingPointObject"></span><span>&nbsp;</span><span id="endPointUnitMirror"
+                                                                                                 data-jsobject="endingPointObject"></span>
+        <br><br>
+        <div id="calculationSteps"></div>
+        <br>  <br>
+        <button class="resetButton" id="resetBottom" type="button" onclick="window.location.reload()">Reset
+        </button>
+    </div>
+</form>
+</body>
+
+</html>

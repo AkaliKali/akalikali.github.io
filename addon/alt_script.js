@@ -114,7 +114,10 @@ class Calculator {
     convertedTimeFunc(startingXUnit, endingXUnit) {
         let convertedTime = timeConversionDict[startingXUnit] / timeConversionDict[endingXUnit];
         let convertedTimeCalc = "";
-        if (timeConversionDict[endingXUnit] === 1) {
+        if (timeConversionDict[endingXUnit] === 1 && timeConversionDict[startingXUnit] === 1) {
+            convertedTimeCalc = '';
+        }
+        else if (timeConversionDict[endingXUnit] === 1) {
             convertedTimeCalc = ` x ${timeConversionDict[startingXUnit]}`;
         }
         else {
@@ -129,7 +132,7 @@ class Calculator {
 
         if (startingWeightUnit === 'none' && endingWeightUnit === 'none') {
             convertedWeight = 1;
-            convertedWeightCalc = ` x 1`;
+            convertedWeightCalc = ``;
         } else if (startingWeightUnit === 'none') {
             convertedWeight = 1 / weightObject.weight;
             convertedWeightCalc = ` / ${weightObject.weight}`;

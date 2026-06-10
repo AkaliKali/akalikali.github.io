@@ -87,11 +87,17 @@ class Calculator {
     }
 
     calcConcentration(mass, volume, massUnit, volumeUnit, XUnit) {
-        let simplifiedMassConversion = `${massConversionDict[XUnit] / massConversionDict[massUnit]}`;
+        let equationConcentration = "";
+        if ((massConversionDict[XUnit] / massConversionDict[massUnit]) === 1 && volume === 1){
+            equationConcentration = "";
+        }
+        else {
+            equationConcentration = ` x ${massConversionDict[XUnit] / massConversionDict[massUnit]} / ${volume}`;
+        }
         return {
             concentration: mass * massConversionDict[XUnit] / massConversionDict[massUnit] / volume,
             concentrationUnit: XUnit + '/' + volumeUnit,
-            concentrationCalc: ` / (${mass} x ${simplifiedMassConversion} / ${volume})`
+            concentrationCalc: `(${mass}${equationConcentration})`
         };
     }
 
@@ -100,10 +106,10 @@ class Calculator {
         let convertedMassCalc = "";
         if (startingXUnit === 'ml') {
             convertedMass = concentrationObject.concentration;
-            convertedMassCalc = ` x ${concentrationObject.concentration}`;
+            convertedMassCalc = ` x `;
         } else if (endingXUnit === 'ml') {
             convertedMass = 1 / concentrationObject.concentration;
-            convertedMassCalc = ` / ${concentrationObject.concentration}`;
+            convertedMassCalc = ` / `;
         } else {
             convertedMass = massConversionDict[endingXUnit] / massConversionDict[startingXUnit];
         }
@@ -157,7 +163,7 @@ class ViewHandler {
 
     placeFinalAnswer() {
         let textContentAnswer;
-        let solvingEquation = `${startingPointObject.point}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc}`;
+        let solvingEquation = `${startingPointObject.point}${startingPointObject.convertedMassCalc}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc}`;
 
         if (endingPointObject.pointUnit === 'ml/h') {
             textContentAnswer = endingPointObject.pointUnit.replace('ml', 'mL');

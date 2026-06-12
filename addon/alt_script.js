@@ -88,10 +88,9 @@ class Calculator {
 
     calcConcentration(mass, volume, massUnit, volumeUnit, XUnit) {
         let equationConcentration = "";
-        if ((massConversionDict[XUnit] / massConversionDict[massUnit]) === 1 && volume === 1){
+        if ((massConversionDict[XUnit] / massConversionDict[massUnit]) === 1 && volume === 1) {
             equationConcentration = "";
-        }
-        else {
+        } else {
             equationConcentration = ` x ${massConversionDict[XUnit] / massConversionDict[massUnit]} / ${volume}`;
         }
         return {
@@ -122,11 +121,9 @@ class Calculator {
         let convertedTimeCalc = "";
         if (timeConversionDict[endingXUnit] === 1 && timeConversionDict[startingXUnit] === 1) {
             convertedTimeCalc = '';
-        }
-        else if (timeConversionDict[endingXUnit] === 1) {
+        } else if (timeConversionDict[endingXUnit] === 1) {
             convertedTimeCalc = ` x ${timeConversionDict[startingXUnit]}`;
-        }
-        else {
+        } else {
             convertedTimeCalc = ` x ${timeConversionDict[startingXUnit]} / ${timeConversionDict[endingXUnit]}`;
         }
         return {convertedTime: convertedTime, convertedTimeUnit: endingXUnit, convertedTimeCalc: convertedTimeCalc}
@@ -147,15 +144,18 @@ class Calculator {
             convertedWeightCalc = ` x ${weightObject.weight}`;
         }
 
-        return {convertedWeight: convertedWeight, convertedWeightUnit: endingWeightUnit, convertedWeightCalc: convertedWeightCalc};
+        return {
+            convertedWeight: convertedWeight,
+            convertedWeightUnit: endingWeightUnit,
+            convertedWeightCalc: convertedWeightCalc
+        };
     }
 
     calcAnswer(point, massConversion, timeConversion, weightConversion) {
         let answer = point * massConversion * timeConversion * weightConversion;
         if (endingPointObject.pointUnit === 'ml/h') {
             answer = Math.round(answer * 10) / 10;
-        }
-        else {
+        } else {
             answer = Math.round(answer * 1000) / 1000;
         }
         return {answer: answer};
@@ -171,6 +171,13 @@ class ViewHandler {
     placeFinalAnswer() {
         let textContentAnswer;
         let solvingEquation = `${startingPointObject.point}${startingPointObject.convertedMassCalc}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc}`;
+        const canShowCalculationSteps = [
+            startingPointObject.point,
+            startingPointObject.convertedMass,
+            concentrationObject.concentration,
+            startingPointObject.convertedTime,
+            startingPointObject.convertedWeight,
+        ].every(Number.isFinite);
 
         if (endingPointObject.pointUnit === 'ml/h') {
             textContentAnswer = endingPointObject.pointUnit.replace('ml', 'mL');
@@ -180,6 +187,11 @@ class ViewHandler {
         document.getElementById('endingPoint').textContent = endingPointObject.answer;
         document.getElementById('endPointUnitMirror').textContent = textContentAnswer;
         document.getElementById('calculationSteps').textContent = solvingEquation;
+        if (canShowCalculationSteps) {
+            document.getElementById('calculationSteps').hidden = false;
+        } else {
+            document.getElementById('calculationSteps').hidden = true;
+        }
 
         // document.getElementById('endingPoint').textContent = endingPointObject.answer;
         // document.getElementById('endPointUnitMirror').textContent = endingPointObject.pointUnit;

@@ -151,7 +151,14 @@ class Calculator {
     }
 
     calcAnswer(point, massConversion, timeConversion, weightConversion) {
-        return {answer: Math.round(point * massConversion * timeConversion * weightConversion * 10) / 10};
+        let answer = point * massConversion * timeConversion * weightConversion;
+        if (startingPointObject.pointUnit !== 'ml/h') {
+            answer = Math.round(answer * 10) / 10;
+        }
+        else {
+            answer = Math.round(answer * 1000) / 1000;
+        }
+        return {answer: answer};
     }
 }
 

@@ -170,7 +170,7 @@ class ViewHandler {
 
     placeFinalAnswer() {
         let textContentAnswer;
-        let solvingEquation = `${startingPointObject.point}${startingPointObject.convertedMassCalc}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc}`;
+        let solvingEquation = `${startingPointObject.point}${startingPointObject.convertedMassCalc}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc} = `;
         const canShowCalculationSteps = [
             startingPointObject.point,
             startingPointObject.convertedMass,
@@ -179,11 +179,9 @@ class ViewHandler {
             startingPointObject.convertedWeight,
         ].every(Number.isFinite);
 
-        if (endingPointObject.pointUnit === 'ml/h') {
             textContentAnswer = endingPointObject.pointUnit.replace('ml', 'mL');
-        } else {
-            textContentAnswer = endingPointObject.pointUnit;
-        }
+            textContentAnswer = textContentAnswer.replace('mcg', 'MCG');
+
         document.getElementById('endingPoint').textContent = endingPointObject.answer;
         document.getElementById('endPointUnitMirror').textContent = textContentAnswer;
         document.getElementById('calculationSteps').textContent = solvingEquation;

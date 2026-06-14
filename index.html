@@ -13,7 +13,12 @@
 <body>
 <form autocomplete="off">
     <h1>Conversion</h1>
+    <div class="buttonContainer">
+        <button class="resetButton" id="resetBottom" type="button" onclick="window.location.reload()">Reset<br>everything
+        </button>
+    </div>
     <div class="biggerInputContainer">
+
         <div class="inputContainer">
             <h3>Dilution</h3>
             <label for="mass">Quantity :</label>
@@ -25,7 +30,8 @@
                 <option value="mcg">MCG</option>
             </select>
             <h4>in</h4>
-            <input type="text" id="volume" placeholder="mL" maxlength="5" data-jsobject="concentrationObject" data-property="volume">
+            <input type="text" id="volume" placeholder="mL" maxlength="5" data-jsobject="concentrationObject"
+                   data-property="volume">
             <label for="volume">mL (total volume)</label>
             <br><br>
 
@@ -76,15 +82,34 @@
 
     <div class="outputContainer">
         <h3>Ending point</h3>
-        <span id="endingPoint" data-jsobject="endingPointObject"></span><span>&nbsp;</span><span id="endPointUnitMirror"
-                                                                                                 data-jsobject="endingPointObject"></span>
-        <br><br>
-        <div id="calculationSteps"></div>
-        <br>  <br>
-        <button class="resetButton" id="resetBottom" type="button" onclick="window.location.reload()">Reset
-        </button>
+        <span id="calculationSteps"></span><span id="endingPoint"
+                                                 data-jsobject="endingPointObject"></span><span>&nbsp;</span><span
+            id="endPointUnitMirror" data-jsobject="endingPointObject"></span><br><br>
+        <div class="buttonContainer"><input id="medicationName" type="text" placeholder="Medication name" maxlength="22"
+                                            size="22">
+            <button type="button" onclick="">Add to table</button>
+        </div>
+
     </div>
 </form>
+
+<table hidden id="medicationTable">
+    <tr>
+        <th>Medication</th>
+        <th>Quantity</th>
+        <th>Total volume</th>
+        <th>Start point</th>
+        <th>End point</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+    </tr>
+</table>
+
 </body>
 
 </html>

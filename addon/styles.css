@@ -10,21 +10,26 @@ html {
 h1, .buttonContainer {
     text-align: center;
 }
-input[type="text"], input[type="number"]{
+
+input[type="text"], input[type="number"] {
     width: 100px;
 
 }
+
 #medicationName {
     width: auto;
 }
-table{
+
+table {
     margin-top: 2rem;
-    border: 1px solid black;
+    border: 1pt solid black;
     border-collapse: collapse;
     width: 100%;
+    font-size: 12pt;
 }
-td, th{
-text-align: center;
+
+td, th {
+    text-align: center;
     border: 1px solid black;
 }
 
@@ -37,11 +42,13 @@ text-align: center;
     background-color: red;
 
 }
+
 .resetButton:hover {
     transition-duration: 0.2s;
     font-weight: bold;
     transition-timing-function: ease-in-out;
 }
+
 .resetButton:active {
     transition-duration: 0.1s;
     box-shadow: none;
@@ -51,21 +58,47 @@ text-align: center;
     display: flex;
     justify-content: space-evenly;
 }
+
 @media (max-width: 768px) {
-    .biggerInputContainer{
+    .biggerInputContainer {
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
     }
-    .inputContainer{
+
+    .inputContainer {
         margin: 0.8rem;
     }
-
 }
 
+@media print {
+    form {
+        display: none;
+    }
+    @media print {
+        table {
+            border-collapse: collapse;
+            border: 1pt solid black;
+            width: 100%;
+            font-size: 12pt;
+        }
 
+        td,
+        th {
+            border: 1pt solid black;
+            padding: 4pt;
+            text-align: center;
+        }
+    }
+}
 
-.outputContainer{
+#weightMirror {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.outputContainer {
     text-align: center;
 }
 

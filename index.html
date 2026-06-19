@@ -85,14 +85,15 @@
         <span id="calculationSteps"></span><span id="endingPoint"
                                                  data-jsobject="endingPointObject"></span><span>&nbsp;</span><span
             id="endPointUnitMirror" data-jsobject="endingPointObject"></span><br><br>
-        <div class="buttonContainer"><input id="medicationName" type="text" placeholder="Medication name" maxlength="22"
+        <div class="buttonContainer"><input disabled     id="medicationName" type="text" placeholder="Medication name" maxlength="22"
                                             size="22">
-            <button type="button" onclick="">Add to table</button>
+            <button disabled id="addMedicationButton" type="button" onclick="">Add to table</button>
         </div>
 
     </div>
 </form>
-
+<br>
+<div hidden id="weightMirror"><span>kg</span></div>
 <table hidden id="medicationTable">
     <tr>
         <th>Medication</th>
@@ -100,13 +101,6 @@
         <th>Total volume</th>
         <th>Start point</th>
         <th>End point</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
     </tr>
 </table>
 

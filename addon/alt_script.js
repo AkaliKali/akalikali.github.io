@@ -62,6 +62,7 @@ class Calculator {
 
         console.log(startingPointObject);
         console.log(concentrationObject);
+        console.log(endingPointObject);
     }
 
     parseUnits(pointUnits) {
@@ -166,7 +167,9 @@ class Calculator {
 class ViewHandler {
     constructor() {
         this.calculator = new Calculator();
+        this.dataInputList;
     }
+
 
     placeFinalAnswer() {
         let textContentAnswer;
@@ -233,9 +236,51 @@ class ViewHandler {
         }
     }
 
+    registerCalculation(){
+        let medicationName = document.getElementById('medicationName').value;
+        if (!medicationName) {
+            return;
+        }
+        let resultTable = document.getElementById('medicationTable');
+        resultTable.hidden = false;
+
+
+        let newRow = resultTable.insertRow();
+        let massString = `${concentrationObject.mass} ${concentrationObject.massUnit}`;
+        let volumeString = `${concentrationObject.volume} ${concentrationObject.volumeUnit}`;
+        let startString = `${startingPointObject.point} ${startingPointObject.pointUnit}`;
+        startString = startString.replace('ml', 'mL');
+
+        let endString = `${document.getElementById('endingPoint').textContent} ${endingPointObject.pointUnit}`
+        endString = endString.replace('ml', 'mL');
+        let dataListForTable = [medicationName, massString, volumeString, startString, endString]
+        for (let data of dataListForTable) {
+            let newCell = newRow.insertCell();
+            newCell.textContent = data;
+        }
+        document.getElementById('medicationName').value = '';
+
+    }
 
 }
 
 const generalViewHandler = new ViewHandler();
 
 document.querySelectorAll('input[data-property], select[data-property]').forEach(inputElement => generalViewHandler.placeListener(inputElement, objectMap[inputElement.dataset.jsobject]));
+
+document.querySelector('#addMedicationButton').addEventListener('click', generalViewHandler.registerCalculation);
+
+document.querySelector('#weight').addEventListener('blur', event => {
+    if (weightObject.weight) {
+        document.getElementById('addMedicationButton').disabled = false;
+        document.getElementById('medicationName').disabled = false;
+    }
+})
+
+document.querySelector('#addMedicationButton').addEventListener('click', () => {
+    if (weightObject.weight) {
+        document.getElementById("weightMirror").textContent = `${weightObject.weight} kg`;
+        document.getElementById('weightMirror').hidden = false;
+        document.getElementById('weight').disabled = true;
+    }
+});

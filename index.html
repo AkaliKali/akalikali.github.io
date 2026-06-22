@@ -22,7 +22,7 @@
         <div class="inputContainer">
             <h3>Dilution</h3>
             <label for="mass">Quantity :</label>
-            <input type="text" id="mass" maxlength="4" data-jsobject="concentrationObject" data-property="mass">
+            <input inputmode="decimal" type="text" id="mass" maxlength="4" data-jsobject="concentrationObject" data-property="mass">
             <select id="massUnit" data-jsobject="concentrationObject" data-property="massUnit">
                 <option value="unknown">-</option>
                 <option value="g">g</option>
@@ -30,7 +30,7 @@
                 <option value="mcg">MCG</option>
             </select>
             <h4>in</h4>
-            <input type="text" id="volume" placeholder="mL" maxlength="5" data-jsobject="concentrationObject"
+            <input inputmode="decimal" type="text" id="volume" placeholder="mL" maxlength="5" data-jsobject="concentrationObject"
                    data-property="volume">
             <label for="volume">mL (total volume)</label>
             <br><br>
@@ -43,10 +43,10 @@
             <h3>Starting point</h3>
 
             <label for="startPointUnit">Start point :</label>
-            <input type="text" placeholder="" id="startingPoint" class="" maxlength="5"
+            <input inputmode="decimal" type="text" placeholder="" id="startingPoint" class="" maxlength="5"
                    data-jsobject="startingPointObject" data-property="point">
             <select id="startPointUnit" data-property="pointUnit" data-jsobject="startingPointObject">
-                <option value="-">-</option>
+                <option selected value="-">-</option>
                 <option value="ml/h">mL/h</option>
                 <option value="mg/h">mg/h</option>
                 <option value="mg/min">mg/min</option>
@@ -62,7 +62,7 @@
 
             <label for="endPointUnit">End point :</label>
             <select id="endPointUnit" data-jsobject="endingPointObject" data-property="pointUnit">
-                <option value="-">-</option>
+                <option selected value="-">-</option>
                 <option value="ml/h">mL/h</option>
                 <option value="mg/h">mg/h</option>
                 <option value="mg/min">mg/min</option>
@@ -75,7 +75,7 @@
             </select>
             <br><br>
             <label id=weightLabel for="weight">Weight :</label>
-            <input type="text" id="weight" placeholder="kg" maxlength="4"
+            <input inputmode="decimal" type="text" id="weight" placeholder="kg" maxlength="4"
                    data-jsobject="weightObject" data-property="weight"><span> kg</span>
         </div>
     </div>
@@ -83,11 +83,15 @@
     <div class="outputContainer">
         <h3>Ending point</h3>
         <span id="calculationSteps"></span><span id="endingPoint"
-                                                 data-jsobject="endingPointObject"></span><span>&nbsp;</span><span
+                                                 data-jsobject="endingPointObject"></span><span
             id="endPointUnitMirror" data-jsobject="endingPointObject"></span><br><br>
-        <div class="buttonContainer"><input disabled     id="medicationName" type="text" placeholder="Medication name" maxlength="22"
+        <div class="buttonContainer"><input disabled id="medicationName" type="text" placeholder="Medication name"
+                                            maxlength="22"
                                             size="22">
-            <button disabled id="addMedicationButton" type="button" onclick="">Add to table</button>
+            <button disabled class="registerButton" id="addMedicationButton" type="button">Add to table</button>
+            <button disabled class="registerButton" id="addMedicationAndResetButton" type="button">Add to table and
+                reset
+            </button>
         </div>
 
     </div>

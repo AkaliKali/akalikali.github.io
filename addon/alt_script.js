@@ -4,29 +4,30 @@ let endingPointObject = {};
 let weightObject = {weightUnit: 'kg'};
 
 const massConversionDict = {
-    'g': 1,
-    'mg': 1000,
-    'mcg': 1000000,
-    'ng': 1000000000,
-    'ml': 1,
-    'h': 1,
+    'g': 1, 'mg': 1000, 'mcg': 1000000, 'ng': 1000000000, 'ml': 1, 'h': 1,
 }
 
 const timeConversionDict = {
-    'h': 1,
-    'min': 60
+    'h': 1, 'min': 60
 }
 
 const weightConversionDict = {
-    'kg': 1,
-    'lbs': 2.20462,
-    'none': 1
+    'kg': 1, 'lbs': 2.20462, 'none': 1
 }
 
 const objectMap = {concentrationObject, startingPointObject, endingPointObject, weightObject};
 
 class Calculator {
     constructor() {
+    }
+
+    partialObjectReset() { // not resetting weightObject on purpose
+        for (let item of Object.values(objectMap)) {
+            if (item !== weightObject) {
+                Object.keys(item).forEach(key => delete item[key]);
+            }
+        }
+        concentrationObject.volumeUnit = "mL";
     }
 
     calculatorFunc(inputElement, parsedValue, storingObject) {
@@ -40,12 +41,12 @@ class Calculator {
         }
 
         let concentrationLink;
-        if (startingPointObject.qttUnit !== 'ml') {
+        if (startingPointObject.qttUnit && startingPointObject.qttUnit !== 'ml') {
             concentrationLink = startingPointObject.qttUnit;
-        } else if (endingPointObject.pointUnit !== 'ml') {
+        } else if (endingPointObject.pointUnit && endingPointObject.pointUnit !== 'ml') {
             concentrationLink = endingPointObject.qttUnit;
         } else {
-            concentrationLink = mL; // this is wrong logic, must fix later
+            concentrationLink = 'ml'; // this is wrong logic, must fix later
         }
         Object.assign(concentrationObject, this.calcConcentration(concentrationObject.mass, concentrationObject.volume, concentrationObject.massUnit, concentrationObject.volumeUnit, concentrationLink));
 
@@ -60,8 +61,11 @@ class Calculator {
         Object.assign(endingPointObject, this.calcAnswer(startingPointObject.point, startingPointObject.convertedMass, startingPointObject.convertedTime, startingPointObject.convertedWeight))
 
 
+        console.log('startingPointObject:')
         console.log(startingPointObject);
+        console.log('\nconcentrationObject:')
         console.log(concentrationObject);
+        console.log('\nendingPointObject:');
         console.log(endingPointObject);
     }
 
@@ -81,7 +85,7 @@ class Calculator {
         }
 
         if (parts.length === 3) {
-            return {qttUnit: qttUnit, timeUnit: parts[2], weightUnit: parts[3]};
+            return {qttUnit: qttUnit, weightUnit: parts[2], timeUnit: parts[3]};
         } else if (parts.length === 2) {
             return {qttUnit: qttUnit, timeUnit: parts[1], weightUnit: 'none'};
         }
@@ -170,23 +174,37 @@ class ViewHandler {
         this.dataInputList;
     }
 
+    lockWeight() {
+        if (weightObject.weight) {
+            document.getElementById("weightMirror").textContent = `${weightObject.weight} ${weightObject.weightUnit}`;
+            document.getElementById('weightMirror').hidden = false;
+            document.getElementById('weight').disabled = true;
+        }
+    }
+
+    partialReset() {
+        document.querySelectorAll('input[data-property]:not([data-property="weight"]), select[data-property], .outputContainer span').forEach(element => {
+            if (element.tagName === "SPAN") {
+                element.textContent = '';
+            } else if (element.tagName === "SELECT") {
+                element.value = element.options[0].value;
+            } else {
+                element.value = '';
+            }
+        });
+        this.calculator.partialObjectReset();
+    }
 
     placeFinalAnswer() {
         let textContentAnswer;
         let solvingEquation = `${startingPointObject.point}${startingPointObject.convertedMassCalc}${concentrationObject.concentrationCalc}${startingPointObject.convertedTimeCalc}${startingPointObject.convertedWeightCalc} = `;
-        const canShowCalculationSteps = [
-            startingPointObject.point,
-            startingPointObject.convertedMass,
-            concentrationObject.concentration,
-            startingPointObject.convertedTime,
-            startingPointObject.convertedWeight,
-        ].every(Number.isFinite);
+        const canShowCalculationSteps = [startingPointObject.point, startingPointObject.convertedMass, concentrationObject.concentration, startingPointObject.convertedTime, startingPointObject.convertedWeight,].every(Number.isFinite);
 
-            textContentAnswer = endingPointObject.pointUnit.replace('ml', 'mL');
-            textContentAnswer = textContentAnswer.replace('mcg', 'MCG');
+        textContentAnswer = endingPointObject.pointUnit.replace('ml', 'mL');
+        textContentAnswer = textContentAnswer.replace('mcg', 'MCG');
 
         document.getElementById('endingPoint').textContent = endingPointObject.answer;
-        document.getElementById('endPointUnitMirror').textContent = textContentAnswer;
+        document.getElementById('endPointUnitMirror').textContent = ` ${textContentAnswer}`;
         document.getElementById('calculationSteps').textContent = solvingEquation;
         if (canShowCalculationSteps) {
             document.getElementById('calculationSteps').hidden = false;
@@ -194,9 +212,6 @@ class ViewHandler {
             document.getElementById('calculationSteps').hidden = true;
         }
 
-        // document.getElementById('endingPoint').textContent = endingPointObject.answer;
-        // document.getElementById('endPointUnitMirror').textContent = endingPointObject.pointUnit;
-        // document.getElementById('calculationSteps').textContent = startingPointObject.point + ' x ' + startingPointObject.convertedMass + ' x ' + startingPointObject.convertedTime + ' x ' + startingPointObject.convertedWeight;
     }
 
     placeListener(inputElement, storingObject) {
@@ -236,7 +251,7 @@ class ViewHandler {
         }
     }
 
-    registerCalculation(){
+    registerCalculation() {
         let medicationName = document.getElementById('medicationName').value;
         if (!medicationName) {
             return;
@@ -268,19 +283,18 @@ const generalViewHandler = new ViewHandler();
 
 document.querySelectorAll('input[data-property], select[data-property]').forEach(inputElement => generalViewHandler.placeListener(inputElement, objectMap[inputElement.dataset.jsobject]));
 
-document.querySelector('#addMedicationButton').addEventListener('click', generalViewHandler.registerCalculation);
+document.querySelectorAll('.registerButton').forEach(button => button.addEventListener('click', () => {
+    generalViewHandler.registerCalculation();
+    generalViewHandler.lockWeight();
+    if (button.id === 'addMedicationAndResetButton') {
+        generalViewHandler.partialReset();
+    }
+}))
 
 document.querySelector('#weight').addEventListener('blur', event => {
     if (weightObject.weight) {
         document.getElementById('addMedicationButton').disabled = false;
+        document.getElementById('addMedicationAndResetButton').disabled = false;
         document.getElementById('medicationName').disabled = false;
     }
 })
-
-document.querySelector('#addMedicationButton').addEventListener('click', () => {
-    if (weightObject.weight) {
-        document.getElementById("weightMirror").textContent = `${weightObject.weight} kg`;
-        document.getElementById('weightMirror').hidden = false;
-        document.getElementById('weight').disabled = true;
-    }
-});

@@ -76,22 +76,22 @@ td, th {
     form {
         display: none;
     }
-    @media print {
-        table {
-            border-collapse: collapse;
-            border: 1pt solid black;
-            width: 100%;
-            font-size: 12pt;
-        }
 
-        td,
-        th {
-            border: 1pt solid black;
-            padding: 4pt;
-            text-align: center;
-        }
+    table {
+        border-collapse: collapse;
+        border: 1pt solid black;
+        width: 100%;
+        font-size: 12pt;
+    }
+
+    td,
+    th {
+        border: 1pt solid black;
+        padding: 4pt;
+        text-align: center;
     }
 }
+
 
 #weightMirror {
     font-size: 1.5rem;

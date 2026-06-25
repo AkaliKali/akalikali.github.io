@@ -85,7 +85,7 @@ class Calculator {
         }
 
         if (parts.length === 3) {
-            return {qttUnit: qttUnit, weightUnit: parts[2], timeUnit: parts[3]};
+            return {qttUnit: qttUnit, weightUnit: parts[1], timeUnit: parts[2]};
         } else if (parts.length === 2) {
             return {qttUnit: qttUnit, timeUnit: parts[1], weightUnit: 'none'};
         }
